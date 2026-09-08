@@ -1,69 +1,40 @@
-import Image from "next/image";
+const colors = ["#F97316", "#FB923C", "#FDBA74", "#FED7AA", "#FFEEE5"];
+const neutrals = ["#0F172A", "#334155", "#64748B", "#CBD5E1", "#E2E8F0", "#F1F5F9", "#FAFAFC", "#FFFFFF"];
+const typeRows = [["Display 1", "Playfair Display", "48 / 56", "Bold", "Page titles"], ["Display 2", "Playfair Display", "36 / 44", "Bold", "Section titles"], ["Heading 1", "Inter", "28 / 36", "Semi Bold", "Card titles"], ["Heading 2", "Inter", "22 / 30", "Semi Bold", "Sub section"], ["Heading 3", "Inter", "18 / 26", "Medium", "Small titles"], ["Body Large", "Inter", "16 / 24", "Regular", "Body copy"], ["Body", "Inter", "14 / 20", "Regular", "Supporting text"], ["Small", "Inter", "12 / 16", "Regular", "Captions, meta"]];
+const spacing = [4, 8, 12, 16, 24, 32, 40, 48, 64];
+
+function Section({ number, title, className = "", children }: { number: string; title: string; className?: string; children: React.ReactNode }) {
+  return <section className={`section ${className}`}><div className="section-title"><span>{number}</span><h2>{title}</h2></div>{children}</section>;
+}
+
+function Mark({ filled = false }: { filled?: boolean }) {
+  return <span className={`mark ${filled ? "filled" : ""}`} aria-hidden="true">{filled ? "●" : "○"}</span>;
+}
+
+function Logo() {
+  return <div className="logo"><span className="logo-mark">V</span><strong>Vertex</strong></div>;
+}
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+  <main className="sheet">
+    <Section number="01" title="Colors" className="intro colors-section">
+      <div className="intro-copy"><Logo /><h1>Design System</h1><p>A unified design language for Vertex learning platform. Clean, modern and focused on clarity, consistency and intuitive learning experiences.</p><small>VERSION 1.0&nbsp;&nbsp; · &nbsp;&nbsp;MAY 2025</small></div>
+      <div className="palette"><h3>Primary</h3><div className="swatches">{colors.map((color, i) => <div className="swatch" key={color}><i style={{ backgroundColor: color }} /><span>Primary {500 - i * 100}</span><small>{color}</small></div>)}</div><h3>Neutral</h3><div className="swatches">{neutrals.map((color, i) => <div className="swatch" key={color}><i style={{ backgroundColor: color }} /><span>{i === 7 ? "White" : `Neutral ${900 - i * 100}`}</span><small>{color}</small></div>)}</div></div>
+    </Section>
+    <Section number="02" title="Typography"><div className="font-showcase"><div className="font-sample"><b>Ag</b><div><strong>Playfair Display</strong><small>Elegant <em /> Readable <em /> Timeless</small></div></div><div className="font-sample"><b className="sans">Ag</b><div><strong>Inter</strong><small>Clean <em /> Modern <em /> Highly legible</small></div></div></div></Section>
+    <Section number="03" title="Type scale" className="type-scale"><div className="type-table"><div className="table-head"><span>Style</span><span>Font</span><span>Size / Line Height</span><span>Weight</span><span>Use</span></div>{typeRows.map(row => <div className="table-row" key={row[0]}>{row.map((cell, i) => <span key={cell} className={i === 0 ? "type-name" : ""}>{cell}</span>)}</div>)}</div></Section>
+    <Section number="04" title="Spacing system"><p>Base unit: 4px</p><div className="spacing-row">{spacing.map(value => <div className="space-token" key={value}><i style={{ width: value, height: value }} /><strong>{value}</strong><small>({value / 16}rem)</small></div>)}</div></Section>
+    <Section number="05" title="Radius & shadows"><div className="radius-row">{[4, 8, 12, 16, 24].map(value => <div key={value}><i style={{ borderRadius: value }} /><small>{value}px<br />( {value === 4 ? "xs" : value === 8 ? "sm" : value === 12 ? "md" : value === 16 ? "lg" : "xl"} )</small></div>)}<div><i className="circle" /><small>Full<br />(circle)</small></div></div><div className="shadow-row">{["Sm", "Md", "Lg", "Xl"].map(shadow => <div key={shadow}><strong>{shadow}</strong><small>0 1px 2px 0<br />rgba(15, 23, 42, 0.06)</small></div>)}</div></Section>
+    <Section number="06" title="Icons"><div className="icon-line"><span>♧</span><span>⌕</span><span>⊙</span><span>▣</span><span>▱</span><span>▥</span><span>◷</span><span>♙</span><span>›</span></div><div className="icon-line filled-icons"><span>♣</span><span>⌕</span><span>●</span><span>▣</span><span>▮</span><span>▥</span><span>◕</span><span>♟</span><span>›</span></div><p className="bullets">Icon Specs<br />· 24x24px grid<br />· 2px stroke width (outline)<br />· Rounded line caps<br />· Consistent optical balance</p></Section>
+    <Section number="07" title="Buttons" className="buttons"><div className="button-grid"><span /><span>Primary</span><span>Secondary</span><span>Tertiary</span><span>Text</span><span>Default</span><button>Get Started</button><button className="secondary">Explore Courses</button><button className="tertiary">View Lesson ↗</button><button className="text-button">Watch Video ◉</button><span>Hover</span><button>Get Started</button><button className="secondary">Explore Courses</button><button className="tertiary">View Lesson ↗</button><button className="text-button">Watch Video ◉</button><span>Disabled</span><button disabled>Get Started</button><button className="secondary" disabled>Explore Courses</button><button className="tertiary" disabled>View Lesson ↗</button><button className="text-button" disabled>Watch Video ◉</button></div><p className="bullets">Button Specs<br />· Height: 44px (default)<br />· Padding: 0 16px (lg), 0 12px (md)<br />· Radius: 12px<br />· Font: Inter Medium (14-16px)</p></Section>
+    <Section number="08" title="Inputs"><label>Search / Text Input</label><div className="input">⌕ <span>Search anything...</span><kbd>⌘ K</kbd></div><label>Select</label><div className="input select">Most Relevant <span>⌄</span></div><p className="bullets">Field Specs<br />· Height: 44px<br />· Radius: 12px<br />· Border: 1px solid #E2E8F0<br />· Padding: 0 16px<br />· Focus: Border color #FB923C</p></Section>
+    <Section number="09" title="Badges / tags"><div className="badge-grid"><div>Video<span className="badge video">VIDEO</span></div><div>Lesson<span className="badge lesson">LESSON</span></div><div>Popular<span className="badge popular">POPULAR</span></div></div></Section>
+    <Section number="10" title="Status / indicators"><div className="status-row"><span><Mark /> In Progress</span><span className="complete"><Mark filled /> Completed</span><span className="playing"><Mark filled /> Now Playing</span><span>♧ Locked</span></div></Section>
+    <Section number="11" title="Progress bar"><div className="progress"><i /><span>35% complete</span></div></Section>
+    <Section number="12" title="Cards" className="cards-section"><div className="cards">{["Course Card", "Lesson Card (Video)", "Lesson Card (Lesson)", "Resource Card"].map((label, index) => <article key={label}><small>{label}</small><div className="card">{index === 0 && <b className="next-logo">N</b>}{index === 1 && <span className="badge video">VIDEO</span>}{index === 2 && <span className="badge lesson">LESSON</span>}<strong>{index === 0 ? "Next.js for Production" : index === 1 ? "Data Fetching in Server Components" : index === 2 ? "Data Fetching & Caching" : "▤  Caching and Revalidation Guide"}</strong><p>{index === 0 ? "Build scalable, high-performance web applications with Next.js." : index === 1 ? "Learn how to fetch data on the server using async/await and Next.js best practices." : index === 2 ? "Explore different data fetching methods in Next.js and how to cache and revalidate data for optimal performance." : "Deep dive into Next.js caching strategies."}</p><footer>{index === 0 ? "▥ Intermediate　◷ 18h 24m　□ 12 modules" : index === 1 ? "Lesson 5.1　·　12:45" : index === 2 ? "Module 5" : "PDF　·　1.2 MB"}<a>{index === 1 ? "◉ Watch from 12:45" : index === 2 ? "View lesson ↗" : index === 3 ? "↗" : ""}</a></footer></div></article>)}</div></Section>
+    <Section number="13" title="Navigation" className="navigation"><Logo /><b className="active">Courses</b><span>My Learning</span><div className="breadcrumbs"><small>Breadcrumbs</small><span>All Courses　›　Next.js for Production　›　Data Fetching & Caching</span></div><div className="pagination"><small>Pagination</small><span>‹　 <b>1</b>　2　3　...　8　›</span></div></Section>
+    <Section number="14" title="Principles" className="principles">{[["◎", "Clarity First", "Every element should communicate clearly."], ["▦", "Consistency", "Use components and patterns consistently across the platform."], ["◉", "Focus & Calm", "Remove noise and help learners focus on what matters."], ["♙", "Accessible", "Design with accessibility and inclusivity in mind."]].map(([icon, title, body]) => <div key={title}><b>{icon}</b><span><strong>{title}</strong>{body}</span></div>)}</Section>
+  </main>
   );
 }
